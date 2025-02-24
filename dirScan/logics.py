@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QMainWindow, QPushButton, QTextEdit, QVBoxLayout,
                              QLabel, QMessageBox)
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QFont, QIcon
-from styles import get_stylesheet
+from dirScan.styles import get_stylesheet
 
 class MapperThread(QThread):
     progress_signal = pyqtSignal(int)
