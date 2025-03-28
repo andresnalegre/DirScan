@@ -29,7 +29,7 @@ class MapperThread(QThread):
             pass
         return total
 
-    def map_directory(self, path, indent=0):
+    def map_directory(self, path, indent=0, is_last=True):
         try:
             items = os.listdir(path)
             folders = sorted([item for item in items if os.path.isdir(os.path.join(path, item))])
@@ -47,17 +47,19 @@ class MapperThread(QThread):
                     f in ['Thumbs.db', '.DS_Store', '.env', '.coverage']
                 )]
 
-            for folder in folders:
+            for i, folder in enumerate(folders):
                 folder_path = os.path.join(path, folder)
-                self.text_signal.emit("    " * indent + f"📁 {folder}\n")
+                connector = "└── " if is_last else "├── "
+                self.text_signal.emit("    " * indent + connector + f"📁 {folder}\n")
                 self.processed_items += 1
                 self.progress_signal.emit(int(self.processed_items * 100 / self.total_items))
                 self.status_signal.emit(f"Processing: {folder}")
-                self.map_directory(folder_path, indent + 1)
+                self.map_directory(folder_path, indent + 1, i == len(folders) - 1)
 
-            for file in files:
+            for i, file in enumerate(files):
                 if file != "map.txt":
-                    self.text_signal.emit("    " * indent + f"📄 {file}\n")
+                    connector = "└── " if is_last and i == len(files) - 1 else "├── "
+                    self.text_signal.emit("    " * indent + connector + f"📄 {file}\n")
                     self.processed_items += 1
                     self.progress_signal.emit(int(self.processed_items * 100 / self.total_items))
                     self.status_signal.emit(f"Processing: {file}")
@@ -98,12 +100,12 @@ class DirectoryMapperGUI(QMainWindow):
         
         self.select_button = QPushButton('Select Folder', self)
         self.select_button.clicked.connect(self.select_folder)
-        self.select_button.setIcon(QIcon('folder.png'))
+        self.select_button.setIcon(QIcon('folder.png'))  # Ícone de pasta
         
         self.save_button = QPushButton('Save', self)
         self.save_button.clicked.connect(self.save_map)
         self.save_button.setEnabled(False)
-        self.save_button.setIcon(QIcon('save.png'))
+        self.save_button.setIcon(QIcon('save.png'))  # Ícone de salvar
 
         button_layout.addWidget(self.select_button)
         button_layout.addWidget(self.save_button)
@@ -174,6 +176,6 @@ class DirectoryMapperGUI(QMainWindow):
             try:
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(self.text_edit.toPlainText())
-                QMessageBox.information(self, "Success", f"Map saved successfully at:\n{file_path}")
+                self.status_label.setText(f"Map saved successfully at: {file_path}")  # Atualiza a status_label
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Error saving the file:\n{str(e)}")
