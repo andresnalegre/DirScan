@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from dirScan.logics import DirectoryMapperGUI
+from src.ui import DirectoryMapperGUI
 
 def main():
     app = QApplication(sys.argv)
