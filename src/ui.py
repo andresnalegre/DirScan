@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (QMainWindow, QPushButton, QTextEdit, QVBoxLayout,
                             QHBoxLayout, QWidget, QFileDialog, QProgressBar, 
                             QLabel, QMessageBox)
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QIcon, QPixmap
+from PyQt5.QtGui import QFont, QIcon
 from src.styles import get_stylesheet
 from src.logics import MapperThread
 import os
@@ -31,16 +31,8 @@ class DirectoryMapperGUI(QMainWindow):
         header_layout.setContentsMargins(0, 0, 0, 0)
         header_layout.setSpacing(5)
 
-        logo_label = QLabel(self)
-        logo_label.setObjectName("logo")
-        logo_pixmap = self.load_logo()
-        if not logo_pixmap.isNull():
-            scaled_pixmap = logo_pixmap.scaled(250, 250, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            logo_label.setPixmap(scaled_pixmap)
-            logo_label.setAlignment(Qt.AlignCenter)
-            header_layout.addWidget(logo_label)
-            header_layout.addStretch()
-            layout.addWidget(logo_label, 0, Qt.AlignCenter)
+        header_layout.addStretch()
+        layout.addWidget(header_container)
 
         button_container = QWidget()
         button_container.setObjectName("buttonContainer")
@@ -93,20 +85,7 @@ class DirectoryMapperGUI(QMainWindow):
         layout.addWidget(bottom_container)
 
     def load_icon(self):
-        try:
-            icon_path = os.path.join(os.path.dirname(__file__), 'assets', 'logo.png')
-            return QIcon(icon_path)
-        except Exception as e:
-            print(f"Error setting window icon: {e}")
-            return QIcon()
-
-    def load_logo(self):
-        try:
-            logo_path = os.path.join(os.path.dirname(__file__), 'assets', 'logo.png')
-            return QPixmap(logo_path)
-        except Exception as e:
-            print(f"Error loading logo: {e}")
-            return QPixmap()
+        return QIcon()
 
     def select_folder(self):
         self.folder_path = QFileDialog.getExistingDirectory(self, "Select a Folder")
