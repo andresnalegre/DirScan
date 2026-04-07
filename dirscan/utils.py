@@ -61,6 +61,7 @@ _IGNORED_FILENAMES: frozenset[str] = frozenset({
     'Gemfile.lock', 'Cargo.lock', 'composer.lock',
     'poetry.lock', 'Pipfile.lock', 'mix.lock', 'pubspec.lock',
     'go.sum', 'flake.lock',
+    'map.txt',
 })
 
 _IGNORED_EXTENSIONS: frozenset[str] = frozenset({
@@ -154,6 +155,7 @@ def count_items(path: str, ignore_temp_files: bool = False) -> int:
                 files   = [f for f in files if _Filter.file(f)]
             else:
                 dirs[:] = dirs
+            files = [f for f in files if f != "map.txt"]
             total += len(dirs) + len(files)
     except Exception as e:
         print(f"Error counting items: {e}")

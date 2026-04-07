@@ -122,16 +122,4 @@ def get_stylesheet():
             min-width: 100px;
             padding: 8px 16px;
         }
-        
-        QFileDialog {
-            background-color: #1e1e1e;
-        }
-        
-        QFileDialog QLabel {
-            color: white;
-        }
-        
-        QFileDialog QPushButton {
-            min-width: 100px;
-        }
     """

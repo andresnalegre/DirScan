@@ -79,24 +79,19 @@ class DirectoryMapperGUI(QMainWindow):
 
     def load_icon(self):
         base = os.path.dirname(__file__)
-        candidates = [
-            os.path.join(base, '..', 'assets', 'logo.icns'),
-            os.path.join(base, 'assets', 'logo.icns'),
-            os.path.join(base, '..', 'assets', 'logo.ico'),
-            os.path.join(base, 'assets', 'logo.ico'),
-            os.path.join(base, '..', 'assets', 'logo.png'),
-            os.path.join(base, 'assets', 'logo.png'),
-            os.path.join(base, '..', 'logo.icns'),
-            os.path.join(base, '..', 'logo.ico'),
-            os.path.join(base, '..', 'logo.png'),
-        ]
-        for path in candidates:
-            path = os.path.normpath(path)
+        for name in ('logo.icns', 'logo.ico', 'logo.png'):
+            path = os.path.normpath(os.path.join(base, 'assets', name))
             if os.path.isfile(path):
                 icon = QIcon(path)
                 if not icon.isNull():
                     return icon
         return QIcon()
+
+    def closeEvent(self, event):
+        if self.mapper_thread and self.mapper_thread.isRunning():
+            self.mapper_thread.quit()
+            self.mapper_thread.wait()
+        event.accept()
 
     def select_folder(self):
         folder = QFileDialog.getExistingDirectory(self, "Select a Folder")
