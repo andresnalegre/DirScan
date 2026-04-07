@@ -1,1 +1,22 @@
-**/.DS_Store
+# Build artifacts
+build/
+dist/
+*.spec
+
+# DMG files
+*.dmg
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Environments
+.env
+venv/
+.venv/
