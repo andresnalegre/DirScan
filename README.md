@@ -64,35 +64,6 @@ python main.py
 
 ---
 
-## Build DMG
-
-```bash
-pyinstaller --windowed --name "DirScan" \
-  --icon dirscan/assets/logo.icns \
-  --add-data "dirscan/assets:dirscan/assets" \
-  main.py
-
-mkdir -p dmg_staging
-cp -r dist/DirScan.app dmg_staging/
-
-create-dmg \
-  --volname "DirScan" \
-  --volicon "dirscan/assets/logo.icns" \
-  --window-pos 200 120 \
-  --window-size 600 400 \
-  --icon-size 100 \
-  --icon "DirScan.app" 175 190 \
-  --hide-extension "DirScan.app" \
-  --app-drop-link 425 190 \
-  "DirScan.dmg" \
-  "dmg_staging"
-
-rm -rf dmg_staging
-```
-
-Output: `DirScan.dmg`
-
----
 
 ## Tech stack
 
