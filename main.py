@@ -2,6 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from dirscan.ui import DirectoryMapperGUI
 
+sys.setrecursionlimit(5000)
+
 def main():
     app = QApplication(sys.argv)
     ex = DirectoryMapperGUI()

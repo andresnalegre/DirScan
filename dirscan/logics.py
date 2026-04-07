@@ -1,10 +1,7 @@
 from PyQt5.QtCore import QThread, pyqtSignal
 from datetime import datetime
 import os
-import sys
 from dirscan.utils import count_items, filter_items
-
-sys.setrecursionlimit(5000)
 
 CONNECTOR_LAST   = "└── "
 CONNECTOR_MIDDLE = "├── "

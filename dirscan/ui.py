@@ -78,10 +78,17 @@ class DirectoryMapperGUI(QMainWindow):
         layout.addWidget(bottom_container)
 
     def load_icon(self):
+        base = os.path.dirname(__file__)
         candidates = [
-            os.path.join(os.path.dirname(__file__), '..', 'assets', 'logo.icns'),
-            os.path.join(os.path.dirname(__file__), 'assets', 'logo.icns'),
-            os.path.join(os.path.dirname(__file__), '..', 'logo.icns'),
+            os.path.join(base, '..', 'assets', 'logo.icns'),
+            os.path.join(base, 'assets', 'logo.icns'),
+            os.path.join(base, '..', 'assets', 'logo.ico'),
+            os.path.join(base, 'assets', 'logo.ico'),
+            os.path.join(base, '..', 'assets', 'logo.png'),
+            os.path.join(base, 'assets', 'logo.png'),
+            os.path.join(base, '..', 'logo.icns'),
+            os.path.join(base, '..', 'logo.ico'),
+            os.path.join(base, '..', 'logo.png'),
         ]
         for path in candidates:
             path = os.path.normpath(path)
@@ -123,6 +130,10 @@ class DirectoryMapperGUI(QMainWindow):
         self.save_button.setEnabled(False)
         self.select_button.setEnabled(False)
         self.status_label.setText("Starting…")
+
+        if self.mapper_thread and self.mapper_thread.isRunning():
+            self.mapper_thread.quit()
+            self.mapper_thread.wait()
 
         self.mapper_thread = MapperThread(self.folder_path, ignore_temp_files)
         self.mapper_thread.progress_signal.connect(self.update_progress)

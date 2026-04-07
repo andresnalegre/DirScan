@@ -79,7 +79,7 @@ _IGNORED_EXTENSIONS: frozenset[str] = frozenset({
     '.zip', '.tar', '.gz', '.tgz', '.bz2', '.xz', '.rar', '.7z', '.lz4',
     '.zst',
     '.dmg', '.iso', '.img',
-    '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.ico',
+    '.jpg', '.jpeg', '.gif', '.bmp',
     '.webp', '.avif', '.heic', '.tiff', '.tif', '.raw',
     '.mp3', '.mp4', '.avi', '.mov', '.mkv',
     '.wav', '.flac', '.aac', '.ogg', '.opus',
