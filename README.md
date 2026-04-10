@@ -3,7 +3,7 @@
 
   # DirScan
 
-  A desktop directory mapper built with Python and PyQt5, available for macOS.
+  Filter. Map. Simplify.
 
   ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
   ![PyQt5](https://img.shields.io/badge/PyQt5-5.15-green?logo=qt)
@@ -17,12 +17,12 @@
 
 ## About
 
-**DirScan** is a desktop app that scans any folder and generates a visual tree of its structure. You can filter out temporary files and save the result as a `.txt` file.
+**DirScan** is a desktop app available for macOS that scans any folder and generates a visual tree of its structure. You can filter it to ignore useless files like `__pycache__`, `node_modules`, etc., and save the result as a `.txt` file.
 
 ## Features
 
 - Visual directory tree with icons
-- Filter temporary files (node_modules, .git, venv, __pycache__, etc.)
+- Filter useless files (node_modules, .git, venv, __pycache__, etc.)
 - Save map to `.txt`
 - Progress bar with live status
 - macOS DMG available
@@ -45,33 +45,6 @@ xattr -cr /Applications/DirScan.app
 ```
 
 Then open DirScan from Applications or Launchpad normally.
-
----
-
-## Run locally
-
-### Requirements
-- Python 3.10+
-
-### Setup
-
-```bash
-git clone https://github.com/andresnalegre/DirScan.git
-cd DirScan
-pip install -r requirements.txt
-python main.py
-```
-
----
-
-
-## Tech stack
-
-| Layer     | Technology     |
-|-----------|----------------|
-| Language  | Python 3.12    |
-| UI        | PyQt5 5.15     |
-| Platform  | macOS          |
 
 ---
 
