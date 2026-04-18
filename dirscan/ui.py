@@ -421,12 +421,24 @@ class DirectoryMapperGUI(QMainWindow):
         toolbar.setFixedHeight(64)
         tb_layout = QHBoxLayout(toolbar)
         tb_layout.setContentsMargins(24, 0, 24, 0)
-        tb_layout.setSpacing(12)
+        tb_layout.setSpacing(0)
 
-        left_spacer = QWidget()
-        left_spacer.setFixedSize(28, 28)
-        left_spacer.setStyleSheet("background: transparent;")
-        tb_layout.addWidget(left_spacer)
+        left_container = QWidget()
+        left_container.setFixedWidth(120)
+        left_container.setStyleSheet("background: transparent;")
+        left_layout = QHBoxLayout(left_container)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+
+        _logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "logo.png")
+        logo_label = QLabel()
+        logo_label.setFixedSize(36, 36)
+        logo_label.setStyleSheet("background: transparent; border: none;")
+        logo_icon = QIcon(_logo_path)
+        if not logo_icon.isNull():
+            logo_label.setPixmap(logo_icon.pixmap(36, 36))
+        left_layout.addWidget(logo_label)
+        tb_layout.addWidget(left_container)
 
         tb_layout.addStretch()
 
@@ -442,21 +454,31 @@ class DirectoryMapperGUI(QMainWindow):
         self.save_button.setEnabled(False)
 
         tb_layout.addWidget(self.select_button)
+        tb_layout.addSpacing(12)
         tb_layout.addWidget(self.save_button)
 
         tb_layout.addStretch()
 
+        right_container = QWidget()
+        right_container.setFixedWidth(120)
+        right_container.setStyleSheet("background: transparent;")
+        right_layout = QHBoxLayout(right_container)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
         _info_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "info.png")
         self.info_button = QPushButton()
-        self.info_button.setFixedSize(28, 28)
-        self.info_button.setIconSize(QSize(28, 28))
+        self.info_button.setFixedSize(20, 20)
+        self.info_button.setIconSize(QSize(20, 20))
         self.info_button.setIcon(QIcon(_info_path))
         self.info_button.setStyleSheet(
-            "QPushButton { background: transparent; border: none; padding: 0px; }"
+            "QPushButton { background: transparent; border: none; padding: 0px; margin: 0px; }"
+            "QPushButton:hover { background: transparent; border: none; }"
             "QPushButton:pressed { background: transparent; border: none; }"
         )
         self.info_button.clicked.connect(self.show_about)
-        tb_layout.addWidget(self.info_button)
+        right_layout.addWidget(self.info_button)
+        tb_layout.addWidget(right_container)
 
         root.addWidget(toolbar)
 
@@ -542,7 +564,7 @@ class DirectoryMapperGUI(QMainWindow):
     def show_about(self):
         dialog = QDialog(self)
         dialog.setWindowTitle("About")
-        dialog.setFixedSize(420, 300)
+        dialog.setFixedSize(420, 280)
         dialog.setStyleSheet(f"""
             QDialog {{
                 background-color: {BG};
@@ -550,23 +572,6 @@ class DirectoryMapperGUI(QMainWindow):
             QLabel {{
                 background: transparent;
                 border: none;
-            }}
-            QPushButton#okBtn {{
-                background-color: #0a84ff;
-                color: #ffffff;
-                border: none;
-                border-radius: 8px;
-                padding: 8px 0px;
-                font-size: 13px;
-                font-weight: 600;
-                min-width: 100px;
-                max-width: 100px;
-            }}
-            QPushButton#okBtn:hover {{
-                background-color: #1a8fff;
-            }}
-            QPushButton#okBtn:pressed {{
-                background-color: #0060cc;
             }}
         """)
 
@@ -601,22 +606,35 @@ class DirectoryMapperGUI(QMainWindow):
         layout.addSpacing(16)
 
         built_row = QHBoxLayout()
-        built_row.setSpacing(6)
+        built_row.setSpacing(10)
         built_row.addStretch()
 
-        py_badge = QLabel("Python")
-        py_badge.setStyleSheet(
-            "font-size: 11px; font-weight: 600; color: #f5f5f7;"
-            "background-color: #3572A5; border-radius: 4px; padding: 2px 8px;"
-        )
-        built_row.addWidget(py_badge)
+        def make_badge(label, version, color_main, color_version):
+            wrapper = QWidget()
+            wrapper.setStyleSheet("background: transparent;")
+            row = QHBoxLayout(wrapper)
+            row.setContentsMargins(0, 0, 0, 0)
+            row.setSpacing(0)
+            lbl = QLabel(f"  {label}  ")
+            lbl.setStyleSheet(
+                f"font-size: 12px; font-weight: 700; color: #ffffff;"
+                f"background-color: {color_main}; border-radius: 4px;"
+                f"border-top-right-radius: 0px; border-bottom-right-radius: 0px;"
+                f"padding: 3px 2px;"
+            )
+            ver = QLabel(f"  {version}  ")
+            ver.setStyleSheet(
+                f"font-size: 12px; font-weight: 700; color: #ffffff;"
+                f"background-color: {color_version}; border-radius: 4px;"
+                f"border-top-left-radius: 0px; border-bottom-left-radius: 0px;"
+                f"padding: 3px 2px;"
+            )
+            row.addWidget(lbl)
+            row.addWidget(ver)
+            return wrapper
 
-        qt_badge = QLabel("PyQt5")
-        qt_badge.setStyleSheet(
-            "font-size: 11px; font-weight: 600; color: #f5f5f7;"
-            "background-color: #41CD52; border-radius: 4px; padding: 2px 8px;"
-        )
-        built_row.addWidget(qt_badge)
+        built_row.addWidget(make_badge("Python", "3.x", "#2980b9", "#3498db"))
+        built_row.addWidget(make_badge("PyQt5", "5.15", "#1a7a3a", "#27ae60"))
 
         built_row.addStretch()
         layout.addLayout(built_row)
@@ -635,16 +653,6 @@ class DirectoryMapperGUI(QMainWindow):
         layout.addWidget(dev_link)
 
         layout.addStretch()
-
-        btn_row = QHBoxLayout()
-        btn_row.setContentsMargins(0, 0, 0, 0)
-        ok_btn = QPushButton("OK")
-        ok_btn.setObjectName("okBtn")
-        ok_btn.clicked.connect(dialog.accept)
-        btn_row.addStretch()
-        btn_row.addWidget(ok_btn)
-        btn_row.addStretch()
-        layout.addLayout(btn_row)
 
         dialog.exec_()
 
