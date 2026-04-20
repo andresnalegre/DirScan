@@ -1,7 +1,6 @@
 build/
 dist/
 *.spec
-
 *.dmg
 
 __pycache__/
@@ -15,3 +14,7 @@ __pycache__/
 .env
 venv/
 .venv/
+
+*.pkg
+
+*.iconset/
