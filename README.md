@@ -29,25 +29,6 @@
 
 ---
 
-## Installation (macOS)
-
-### 1. Download
-Download `DirScan.dmg` from the [Releases](https://github.com/andresnalegre/DirScan/releases) page.
-
-### 2. Install
-Open the DMG and drag DirScan.app to your Applications folder.
-
-### 3. First Launch
-macOS will block the app on first launch because it's not signed. Run this once in Terminal:
-
-```bash
-xattr -cr /Applications/DirScan.app
-```
-
-Then open DirScan from Applications or Launchpad normally.
-
----
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
